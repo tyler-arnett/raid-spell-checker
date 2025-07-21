@@ -1,7 +1,7 @@
 {
-  "internalName": "raidrunechecker",
-  "displayName": "Raid Rune Checker",
-  "description": "Notifies you when you're missing runes before beginning a raid.",
-  "tags": ["raid", "tob", "toa", "cox", "runes", "spells", "sound","reminder","checker"],
+  "internalName": "raidspellchecker",
+  "displayName": "Raid Spell Checker",
+  "description": "Alerts you when your inventory is missing required runes before entering a raid like COX, TOB, or TOA.",
+  "tags": ["raid", "tob", "toa", "cox", "runes", "spells", "sound", "reminder", "checker", "spell", "spellbook", "rune"],
   "enabledByDefault": true
 }

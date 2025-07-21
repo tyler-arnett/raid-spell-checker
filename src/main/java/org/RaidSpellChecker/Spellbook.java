@@ -5,6 +5,26 @@ import java.util.List;
 
 public class Spellbook
 {
+    public static final String AIR_SPELL = "Air Spell";
+    public static final String EARTH_SPELL = "Earth Spell";
+    public static final String FIRE_SPELL = "Fire Spell";
+    public static final String WATER_SPELL = "Water Spell";
+    public static final String DEMONBANE_SPELL = "Demonbane";
+    public static final String GRASP_SPELL = "Grasp";
+    public static final String THRALL_SPELL = "Thralls";
+    public static final String DEATH_CHARGE_SPELL = "Death Charge";
+    public static final String MARK_OF_DARKNESS_SPELL = "Mark of Darkness";
+    public static final String SMOKE_SPELL = "Smoke Spell";
+    public static final String SHADOW_SPELL = "Shadow Spell";
+    public static final String BLOOD_SPELL = "Blood Spell";
+    public static final String ICE_SPELL = "Ice Spell";
+    public static final String CURE_SPELL = "Cure Spell";
+    public static final String POT_SHARE = "Pot Share";
+    public static final String VENGE_SPELL = "Venge";
+    public static final String HUMIDIFY_SPELL = "Humidify";
+    public static final String WRONG_SPELLBOOK = "WRONG SPELLBOOK";
+    public static final String WRONG_RUNES = "WRONG RUNES";
+
     // === ELEMENTAL GROUPS === //
     public static final List<SpellDefinition> AIR_SPELLS = List.of(
             new SpellDefinition("Wind Strike", List.of(

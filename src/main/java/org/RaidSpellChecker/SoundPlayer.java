@@ -49,4 +49,11 @@ public class SoundPlayer {
             e.printStackTrace();
         }
     }
+    public static synchronized void stop() {
+        if (currentClip != null) {
+            currentClip.stop();
+            currentClip.close();
+            currentClip = null;
+        }
+    }
 }

@@ -2,7 +2,6 @@ package org.RaidSpellChecker;
 
 import com.google.inject.Provides;
 import javax.inject.Inject;
-
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.coords.LocalPoint;
@@ -10,15 +9,14 @@ import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
-import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.RaidSpellChecker.Spellbook.*;
 
 @Slf4j
 @PluginDescriptor(
@@ -32,17 +30,24 @@ public class RaidSpellCheckerPlugin extends Plugin
 	@Inject
 	private RaidSpellCheckerConfig config;
 
+	// === Constants === //
+	private static final WorldArea TOA_ZONE = new WorldArea(3357, 9113, 5, 4, 0);
+	private static final WorldArea TOB_ZONE = new WorldArea(3670, 3215, 7, 8, 0);
+
+	// === Dynamic State === //
 	private WorldPoint lastPlayerLocation;
 	private WorldPoint currentPlayerLocation;
-	private static final WorldArea toaZone = new WorldArea(3357,9113,5,4,0);
-	private static final WorldArea tobZone = new WorldArea(3670,3215,7,8,0);
-	private WorldArea coxZone;
-    private boolean justLoadedRaidScene = false;
+	private WorldArea COX_ZONE;
+
+	// === COX Scene State === //
+	private boolean justLoadedRaidScene = false;
 	private boolean raidLayoutChecked = false;
 	private int lastRaidBaseRegion = -1;
 	private long lastSceneIdentity = -1;
-	private int currentRaidLayout = -1;
+
+	// === Runtime Flags === //
 	private boolean wrongSpellbook;
+
 
 	@Override
 	protected void startUp() throws Exception
@@ -53,6 +58,7 @@ public class RaidSpellCheckerPlugin extends Plugin
 	@Override
 	protected void shutDown() throws Exception
 	{
+		SoundPlayer.stop();
 		log.info("Raid Rune Checker stopped!");
 	}
 
@@ -69,35 +75,35 @@ public class RaidSpellCheckerPlugin extends Plugin
 		int currentSpellbook = client.getVarbitValue(Varbits.SPELLBOOK);
 		if (currentSpellbook != activeSpellbook.ordinal())
 		{
-			selected.add("WRONG SPELLBOOK");
+			selected.add(WRONG_SPELLBOOK);
 			return selected;
 		}
 		switch (activeSpellbook)
 		{
 			case STANDARD:
-				if (config.useAirCOX()) selected.add("Air Spell");
-				if (config.useEarthCOX()) selected.add("Earth Spell");
-				if (config.useFireCOX()) selected.add("Fire Spell");
-				if (config.useWaterCOX()) selected.add("Water Spell");
+				if (config.useAirCOX()) selected.add(AIR_SPELL);
+				if (config.useEarthCOX()) selected.add(EARTH_SPELL);
+				if (config.useFireCOX()) selected.add(FIRE_SPELL);
+				if (config.useWaterCOX()) selected.add(WATER_SPELL);
 				break;
 			case ARCEUUS:
-				if (config.useDemonbaneCOX()) selected.add("Demonbane");
-				if (config.useGraspCOX()) selected.add("Grasp");
-				if (config.useThrallsCOX()) selected.add("Thralls");
-				if (config.useDeathChargeCOX()) selected.add("Death Charge");
-				if (config.useMarkOfDarknessCOX()) selected.add("Mark of Darkness");
+				if (config.useDemonbaneCOX()) selected.add(DEMONBANE_SPELL);
+				if (config.useGraspCOX()) selected.add(GRASP_SPELL);
+				if (config.useThrallsCOX()) selected.add(THRALL_SPELL);
+				if (config.useDeathChargeCOX()) selected.add(DEATH_CHARGE_SPELL);
+				if (config.useMarkOfDarknessCOX()) selected.add(MARK_OF_DARKNESS_SPELL);
 				break;
 			case ANCIENT:
-				if (config.useSmokeCOX()) selected.add("Smoke Spell");
-				if (config.useShadowCOX()) selected.add("Shadow Spell");
-				if (config.useBloodCOX()) selected.add("Blood Spell");
-				if (config.useIceCOX()) selected.add("Ice Spell");
+				if (config.useSmokeCOX()) selected.add(SMOKE_SPELL);
+				if (config.useShadowCOX()) selected.add(SHADOW_SPELL);
+				if (config.useBloodCOX()) selected.add(BLOOD_SPELL);
+				if (config.useIceCOX()) selected.add(ICE_SPELL);
 				break;
 			case LUNAR:
-				if (config.useCureCOX()) selected.add("Cure Spell");
-				if (config.usePotShareCOX()) selected.add("Pot Share");
-				if (config.useVengeCOX()) selected.add("Venge");
-				if (config.useHumidifyCOX()) selected.add("Humidify");
+				if (config.useCureCOX()) selected.add(CURE_SPELL);
+				if (config.usePotShareCOX()) selected.add(POT_SHARE);
+				if (config.useVengeCOX()) selected.add(VENGE_SPELL);
+				if (config.useHumidifyCOX()) selected.add(HUMIDIFY_SPELL);
 				break;
 		}
 		return selected;
@@ -109,35 +115,35 @@ public class RaidSpellCheckerPlugin extends Plugin
 		int currentSpellbook = client.getVarbitValue(Varbits.SPELLBOOK);
 		if (currentSpellbook != activeSpellbook.ordinal())
 		{
-			selected.add("WRONG SPELLBOOK");
+			selected.add(WRONG_SPELLBOOK);
 			return selected;
 		}
 		switch (activeSpellbook)
 		{
 			case STANDARD:
-				if (config.useAirTOB()) selected.add("Air Spell");
-				if (config.useEarthTOB()) selected.add("Earth Spell");
-				if (config.useFireTOB()) selected.add("Fire Spell");
-				if (config.useWaterTOB()) selected.add("Water Spell");
+				if (config.useAirTOB()) selected.add(AIR_SPELL);
+				if (config.useEarthTOB()) selected.add(EARTH_SPELL);
+				if (config.useFireTOB()) selected.add(FIRE_SPELL);
+				if (config.useWaterTOB()) selected.add(WATER_SPELL);
 				break;
 			case ARCEUUS:
-				if (config.useDemonbaneTOB()) selected.add("Demonbane");
-				if (config.useGraspTOB()) selected.add("Grasp");
-				if (config.useThrallsTOB()) selected.add("Thralls");
-				if (config.useDeathChargeTOB()) selected.add("Death Charge");
-				if (config.useMarkOfDarknessTOB()) selected.add("Mark of Darkness");
+				if (config.useDemonbaneTOB()) selected.add(DEMONBANE_SPELL);
+				if (config.useGraspTOB()) selected.add(GRASP_SPELL);
+				if (config.useThrallsTOB()) selected.add(THRALL_SPELL);
+				if (config.useDeathChargeTOB()) selected.add(DEATH_CHARGE_SPELL);
+				if (config.useMarkOfDarknessTOB()) selected.add(MARK_OF_DARKNESS_SPELL);
 				break;
 			case ANCIENT:
-				if (config.useSmokeTOB()) selected.add("Smoke Spell");
-				if (config.useShadowTOB()) selected.add("Shadow Spell");
-				if (config.useBloodTOB()) selected.add("Blood Spell");
-				if (config.useIceTOB()) selected.add("Ice Spell");
+				if (config.useSmokeTOB()) selected.add(SMOKE_SPELL);
+				if (config.useShadowTOB()) selected.add(SHADOW_SPELL);
+				if (config.useBloodTOB()) selected.add(BLOOD_SPELL);
+				if (config.useIceTOB()) selected.add(ICE_SPELL);
 				break;
 			case LUNAR:
-				if (config.useCureTOB()) selected.add("Cure Spell");
-				if (config.usePotShareTOB()) selected.add("Pot Share");
-				if (config.useVengeTOB()) selected.add("Venge");
-				if (config.useHumidifyTOB()) selected.add("Humidify");
+				if (config.useCureTOB()) selected.add(CURE_SPELL);
+				if (config.usePotShareTOB()) selected.add(POT_SHARE);
+				if (config.useVengeTOB()) selected.add(VENGE_SPELL);
+				if (config.useHumidifyTOB()) selected.add(HUMIDIFY_SPELL);
 				break;
 		}
 		return selected;
@@ -149,35 +155,35 @@ public class RaidSpellCheckerPlugin extends Plugin
 		int currentSpellbook = client.getVarbitValue(Varbits.SPELLBOOK);
 		if (currentSpellbook != activeSpellbook.ordinal())
 		{
-			selected.add("WRONG SPELLBOOK");
+			selected.add(WRONG_SPELLBOOK);
 			return selected;
 		}
 		switch (activeSpellbook)
 		{
 			case STANDARD:
-				if (config.useAirTOA()) selected.add("Air Spell");
-				if (config.useEarthTOA()) selected.add("Earth Spell");
-				if (config.useFireTOA()) selected.add("Fire Spell");
-				if (config.useWaterTOA()) selected.add("Water Spell");
+				if (config.useAirTOA()) selected.add(AIR_SPELL);
+				if (config.useEarthTOA()) selected.add(EARTH_SPELL);
+				if (config.useFireTOA()) selected.add(FIRE_SPELL);
+				if (config.useWaterTOA()) selected.add(WATER_SPELL);
 				break;
 			case ARCEUUS:
-				if (config.useDemonbaneTOA()) selected.add("Demonbane");
-				if (config.useGraspTOA()) selected.add("Grasp");
-				if (config.useThrallsTOA()) selected.add("Thralls");
-				if (config.useDeathChargeTOA()) selected.add("Death Charge");
-				if (config.useMarkOfDarknessTOA()) selected.add("Mark of Darkness");
+				if (config.useDemonbaneTOA()) selected.add(DEMONBANE_SPELL);
+				if (config.useGraspTOA()) selected.add(GRASP_SPELL);
+				if (config.useThrallsTOA()) selected.add(THRALL_SPELL);
+				if (config.useDeathChargeTOA()) selected.add(DEATH_CHARGE_SPELL);
+				if (config.useMarkOfDarknessTOA()) selected.add(MARK_OF_DARKNESS_SPELL);
 				break;
 			case ANCIENT:
-				if (config.useSmokeTOA()) selected.add("Smoke Spell");
-				if (config.useShadowTOA()) selected.add("Shadow Spell");
-				if (config.useBloodTOA()) selected.add("Blood Spell");
-				if (config.useIceTOA()) selected.add("Ice Spell");
+				if (config.useSmokeTOA()) selected.add(SMOKE_SPELL);
+				if (config.useShadowTOA()) selected.add(SHADOW_SPELL);
+				if (config.useBloodTOA()) selected.add(BLOOD_SPELL);
+				if (config.useIceTOA()) selected.add(ICE_SPELL);
 				break;
 			case LUNAR:
-				if (config.useCureTOA()) selected.add("Cure Spell");
-				if (config.usePotShareTOA()) selected.add("Pot Share");
-				if (config.useVengeTOA()) selected.add("Venge");
-				if (config.useHumidifyTOA()) selected.add("Humidify");
+				if (config.useCureTOA()) selected.add(CURE_SPELL);
+				if (config.usePotShareTOA()) selected.add(POT_SHARE);
+				if (config.useVengeTOA()) selected.add(VENGE_SPELL);
+				if (config.useHumidifyTOA()) selected.add(HUMIDIFY_SPELL);
 				break;
 		}
 		return selected;
@@ -195,21 +201,21 @@ public class RaidSpellCheckerPlugin extends Plugin
 			}
 			WorldPoint previous = lastPlayerLocation;
 			lastPlayerLocation = currentPlayerLocation;
-			if (config.enableTOA() && !previous.equals(currentPlayerLocation) && !previous.isInArea(toaZone) && currentPlayerLocation.isInArea(toaZone))
+			if (config.enableTOA() && !previous.equals(currentPlayerLocation) && !previous.isInArea(TOA_ZONE) && currentPlayerLocation.isInArea(TOA_ZONE))
 			{
 				if (!processSpells(getSelectedSpellsTOA()))
 				{
-					if (wrongSpellbook) client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "WRONG SPELLBOOK", null);
-					else client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "WRONG RUNES", null);
+					if (wrongSpellbook) client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_SPELLBOOK, null);
+					else client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_RUNES, null);
 					playSound(config.soundEffect());
 				}
 			}
-			else if (config.enableTOB() && !previous.equals(currentPlayerLocation) && !previous.isInArea(tobZone) && currentPlayerLocation.isInArea(tobZone))
+			else if (config.enableTOB() && !previous.equals(currentPlayerLocation) && !previous.isInArea(TOB_ZONE) && currentPlayerLocation.isInArea(TOB_ZONE))
 			{
 				if (!processSpells(getSelectedSpellsTOB()))
 				{
-					if (wrongSpellbook) client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "WRONG SPELLBOOK", null);
-					else client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "WRONG RUNES", null);
+					if (wrongSpellbook) client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_SPELLBOOK, null);
+					else client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_RUNES, null);
 					playSound(config.soundEffect());
 				}
 
@@ -231,16 +237,15 @@ public class RaidSpellCheckerPlugin extends Plugin
 						lastSceneIdentity = sceneIdentity;
 						raidLayoutChecked = true;
 						justLoadedRaidScene = false;
-						//int raidLayout = getRaidLayout(currentPlayerLocation);
-						//client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "RAID DETECTED. LAYOUT: " + raidLayout + "      RAID REGION: " + baseRegion, null);
+						getRaidLayout(currentPlayerLocation);
 					}
 				}
-				if (!previous.equals(currentPlayerLocation) && !previous.isInArea(coxZone) && currentPlayerLocation.isInArea(coxZone))
+				if (!previous.equals(currentPlayerLocation) && !previous.isInArea(COX_ZONE) && currentPlayerLocation.isInArea(COX_ZONE))
 				{
 					if (!processSpells(getSelectedSpellsCOX()))
 					{
-						if (wrongSpellbook) client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "WRONG SPELLBOOK", null);
-						else client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "WRONG RUNES", null);
+						if (wrongSpellbook) client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_SPELLBOOK, null);
+						else client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_RUNES, null);
 						playSound(config.soundEffect());
 					}
 				}
@@ -264,71 +269,71 @@ public class RaidSpellCheckerPlugin extends Plugin
 		for (String spell : spells)
 		{
             switch (spell) {
-                case "WRONG SPELLBOOK":
+				case WRONG_SPELLBOOK:
 					wrongSpellbook = true;
-                    return false;
-                case "Air Spell":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.AIR_SPELLS)) return false;
-                    break;
-                case "Earth Spell":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.EARTH_SPELLS)) return false;
-                    break;
-                case "Fire Spell":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.FIRE_SPELLS)) return false;
-                    break;
-                case "Water Spell":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.WATER_SPELLS)) return false;
-                    break;
-                case "Demonbane":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.DEMONBANE_SPELLS)) return false;
-                    break;
-                case "Grasp":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.GRASP_SPELLS)) return false;
-                    break;
-                case "Thralls":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.THRALL_SPELLS)) return false;
-                    break;
-                case "Death Charge":
-                    if (!SpellCastingHelper.canCastSpell(client, Spellbook.DEATH_CHARGE)) return false;
-                    break;
-                case "Mark of Darkness":
-                    if (!SpellCastingHelper.canCastSpell(client, Spellbook.MARK_OF_DARKNESS)) return false;
-                    break;
-                case "Smoke Spell":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.SMOKE_SPELLS)) return false;
-                    break;
-                case "Shadow Spell":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.SHADOW_SPELLS)) return false;
-                    break;
-                case "Blood Spell":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.BLOOD_SPELLS)) return false;
-                    break;
-                case "Ice Spell":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.ICE_SPELLS)) return false;
-                    break;
-                case "Cure Spell":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.CURE_SPELLS)) return false;
-                    break;
-                case "Pot Share":
-                    if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.POT_SHARE_SPELLS)) return false;
-                    break;
-                case "Venge":
-                    if (!SpellCastingHelper.canCastSpell(client, Spellbook.VENGEANCE)) return false;
-                    break;
-                case "Humidify":
-                    if (!SpellCastingHelper.canCastSpell(client, Spellbook.HUMIDIFY)) return false;
-                    break;
-                default:
-                    return true;
+					return false;
+				case AIR_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.AIR_SPELLS)) return false;
+					break;
+				case EARTH_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.EARTH_SPELLS)) return false;
+					break;
+				case FIRE_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.FIRE_SPELLS)) return false;
+					break;
+				case WATER_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.WATER_SPELLS)) return false;
+					break;
+				case DEMONBANE_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.DEMONBANE_SPELLS)) return false;
+					break;
+				case GRASP_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.GRASP_SPELLS)) return false;
+					break;
+				case THRALL_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.THRALL_SPELLS)) return false;
+					break;
+				case DEATH_CHARGE_SPELL:
+					if (!SpellCastingHelper.canCastSpell(client, Spellbook.DEATH_CHARGE)) return false;
+					break;
+				case MARK_OF_DARKNESS_SPELL:
+					if (!SpellCastingHelper.canCastSpell(client, Spellbook.MARK_OF_DARKNESS)) return false;
+					break;
+				case SMOKE_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.SMOKE_SPELLS)) return false;
+					break;
+				case SHADOW_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.SHADOW_SPELLS)) return false;
+					break;
+				case BLOOD_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.BLOOD_SPELLS)) return false;
+					break;
+				case ICE_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.ICE_SPELLS)) return false;
+					break;
+				case CURE_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.CURE_SPELLS)) return false;
+					break;
+				case POT_SHARE:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.POT_SHARE_SPELLS)) return false;
+					break;
+				case VENGE_SPELL:
+					if (!SpellCastingHelper.canCastSpell(client, Spellbook.VENGEANCE)) return false;
+					break;
+				case HUMIDIFY_SPELL:
+					if (!SpellCastingHelper.canCastSpell(client, Spellbook.HUMIDIFY)) return false;
+					break;
+				default:
+					return true;
             }
         }
 		return true;
 	}
-	public int getRaidLayout(WorldPoint playerLocation)
+	public void getRaidLayout(WorldPoint playerLocation)
 	{
+		//Using location of flowers inside the raid when you enter to determine which layout and thus set the COX_ZONE for when the player should be notified
 		boolean layout1 = false;
 		LocalPoint localPoint = LocalPoint.fromWorld(client, currentPlayerLocation);
-		client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "scene x: " + localPoint.getSceneX() + "   scene y: " + localPoint.getSceneY(), null);
 		Tile tile = client.getScene().getTiles()[playerLocation.getPlane()][localPoint.getSceneX()+3][localPoint.getSceneY()+11];
 		for (GameObject g : tile.getGameObjects())
 		{
@@ -336,10 +341,9 @@ public class RaidSpellCheckerPlugin extends Plugin
 		}
 		if (layout1)
 		{
-			currentRaidLayout = 1;
 			//SET REGION OF DETECTION
-			coxZone = new WorldArea(playerLocation.getX()-9,playerLocation.getY()+11,5,6, playerLocation.getPlane());
-			return 1;
+			COX_ZONE = new WorldArea(playerLocation.getX()-9,playerLocation.getY()+11,5,6, playerLocation.getPlane());
+			return;
 		}
 		boolean layout2 = false;
 		for (GameObject g : client.getScene().getTiles()[playerLocation.getPlane()][localPoint.getSceneX()+13][localPoint.getSceneY()+8].getGameObjects())
@@ -348,10 +352,9 @@ public class RaidSpellCheckerPlugin extends Plugin
 		}
 		if (layout2)
 		{
-			currentRaidLayout = 2;
 			//SET REGION OF DETECTION
-			coxZone = new WorldArea(playerLocation.getX()+6,playerLocation.getY()+13,6,4, playerLocation.getPlane());
-			return 2;
+			COX_ZONE = new WorldArea(playerLocation.getX()+6,playerLocation.getY()+13,6,4, playerLocation.getPlane());
+			return;
 		}
 		boolean layout3 = false;
 		for (GameObject g : client.getScene().getTiles()[playerLocation.getPlane()][localPoint.getSceneX()+4][localPoint.getSceneY()+1].getGameObjects())
@@ -360,13 +363,11 @@ public class RaidSpellCheckerPlugin extends Plugin
 		}
 		if (layout3)
 		{
-			currentRaidLayout = 3;
 			//SET REGION OF DETECTION
-			coxZone = new WorldArea(playerLocation.getX()+15,playerLocation.getY()+6,7,5, playerLocation.getPlane());
-			return 3;
+			COX_ZONE = new WorldArea(playerLocation.getX()+15,playerLocation.getY()+6,7,5, playerLocation.getPlane());
+			return;
 		}
 		//DO NOT MOVE REGION OF DETECTION!!!!!!
-		return currentRaidLayout;
     }
 	public GameObject findObjectInScene(Client client, int targetObjectId)
 	{

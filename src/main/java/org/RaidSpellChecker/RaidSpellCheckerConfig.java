@@ -7,10 +7,10 @@ import net.runelite.client.config.ConfigSection;
 import net.runelite.client.config.Range;
 import net.runelite.client.config.Units;
 
-@ConfigGroup("example")
+@ConfigGroup("raidspellchecker")
 public interface RaidSpellCheckerConfig extends Config
 {
-	public enum Spellbook
+	enum Spellbook
 	{
 		STANDARD,
 		ANCIENT,
@@ -18,7 +18,7 @@ public interface RaidSpellCheckerConfig extends Config
 		ARCEUUS
 	}
 
-	public enum Sound
+	enum Sound
 	{
 		RUBY_BOLTS,
 		FAIRY_RING,
@@ -63,27 +63,32 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String coxStandardSpells = "COX Standard Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelCOXStandard",
+			name = "", description = "",
+			section = coxStandardSpells)
+	default String labelCOXStandard() { return "Standard spell requirements for COX."; }
+	@ConfigItem(position = 2,
 			keyName = "useFireCOX",
 			name = "Fire Spell",
 			description = "Use a fire spell (Standard)",
 			section = coxStandardSpells
 			)
 	default boolean useFireCOX() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "useWaterCOX",
 			name = "Water Spell",
 			description = "Use a water spell (Standard)",
 			section = coxStandardSpells
 	)
 	default boolean useWaterCOX() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useEarthCOX",
 			name = "Earth Spell",
 			description = "Use an earth spell (Standard)",
 			section = coxStandardSpells
 	)
 	default boolean useEarthCOX() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useAirCOX",
 			name = "Air Spell",
 			description = "Use an air spell (Standard)",
@@ -100,34 +105,39 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String coxArceuusSpells = "COX Arceuus Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelCOXArceuus",
+			name = "", description = "",
+			section = coxArceuusSpells)
+	default String labelCOXArceuus() { return "Arceuus spell requirements for COX."; }
+	@ConfigItem(position = 2,
 			keyName = "useGraspCOX",
 			name = "Grasp Spell",
 			description = "Use a grasp spell (Arceuus)",
 			section = coxArceuusSpells
 	)
 	default boolean useGraspCOX() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "useDemonbaneCOX",
 			name = "Demonbane Spell",
 			description = "Use a demonbane spell (Arceuus)",
 			section = coxArceuusSpells
 	)
 	default boolean useDemonbaneCOX() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useThrallsCOX",
 			name = "Thralls",
 			description = "Use a thrall spell (Arceuus)",
 			section = coxArceuusSpells
 	)
 	default boolean useThrallsCOX() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useDeathChargeCOX",
 			name = "Death Charge",
 			description = "Use the death charge spell (Arceuus)",
 			section = coxArceuusSpells
 	)
 	default boolean useDeathChargeCOX() {return false;}
-	@ConfigItem(position = 5,
+	@ConfigItem(position = 6,
 			keyName = "useMarkOfDarknessCOX",
 			name = "Mark of Darkness",
 			description = "Use the mark of darkness spell (Arceuus)",
@@ -144,27 +154,32 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String coxAncientSpells = "COX Ancient Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelCOXAncient",
+			name = "", description = "",
+			section = coxAncientSpells)
+	default String labelCOXAncient() { return "Ancient spell requirements for COX."; }
+	@ConfigItem(position = 2,
 			keyName = "useSmokeCOX",
 			name = "Smoke Spell",
 			description = "Use a smoke spell (Ancient)",
 			section = coxAncientSpells
 	)
 	default boolean useSmokeCOX() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "useShadowCOX",
 			name = "Shadow Spell",
 			description = "Use a shadow spell (Ancient)",
 			section = coxAncientSpells
 	)
 	default boolean useShadowCOX() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useBloodCOX",
 			name = "Blood Spell",
 			description = "Use a blood spell (Ancient)",
 			section = coxAncientSpells
 	)
 	default boolean useBloodCOX() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useIceCOX",
 			name = "Ice Spell",
 			description = "Use an ice spell (Ancient)",
@@ -181,27 +196,32 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String coxLunarSpells = "COX Lunar Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelCOXLunar",
+			name = "", description = "",
+			section = coxLunarSpells)
+	default String labelCOXLunar() { return "Lunar spell requirements for COX."; }
+	@ConfigItem(position = 2,
 			keyName = "useCureCOX",
 			name = "Cure Spells",
 			description = "Use a cure spell (Lunar)",
 			section = coxLunarSpells
 	)
 	default boolean useCureCOX() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "usePotShareCOX",
 			name = "Pot Share",
 			description = "Use a potshare spell (Lunar)",
 			section = coxLunarSpells
 	)
 	default boolean usePotShareCOX() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useVengeCOX",
 			name = "Venge",
 			description = "Use the venge spell (Lunar)",
 			section = coxLunarSpells
 	)
 	default boolean useVengeCOX() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useHumidifyCOX",
 			name = "Humidify",
 			description = "Use the humidify spell (Lunar)",
@@ -245,27 +265,32 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String tobStandardSpells = "TOB Standard Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelTOBStandard",
+			name = "", description = "",
+			section = tobStandardSpells)
+	default String labelTOBStandard() { return "Standard spell requirements for TOB."; }
+	@ConfigItem(position = 2,
 			keyName = "useFireTOB",
 			name = "Fire Spell",
 			description = "Use a fire spell (Standard)",
 			section = tobStandardSpells
 	)
 	default boolean useFireTOB() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "useWaterTOB",
 			name = "Water Spell",
 			description = "Use a water spell (Standard)",
 			section = tobStandardSpells
 	)
 	default boolean useWaterTOB() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useEarthTOB",
 			name = "Earth Spell",
 			description = "Use an earth spell (Standard)",
 			section = tobStandardSpells
 	)
 	default boolean useEarthTOB() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useAirTOB",
 			name = "Air Spell",
 			description = "Use an air spell (Standard)",
@@ -282,34 +307,39 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String tobArceuusSpells = "TOB Arceuus Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelTOBArceuus",
+			name = "", description = "",
+			section = tobArceuusSpells)
+	default String labelTOBArceuus() { return "Arceuus spell requirements for TOB."; }
+	@ConfigItem(position = 2,
 			keyName = "useGraspTOB",
 			name = "Grasp Spell",
 			description = "Use a grasp spell (Arceuus)",
 			section = tobArceuusSpells
 	)
 	default boolean useGraspTOB() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "useDemonbaneTOB",
 			name = "Demonbane Spell",
 			description = "Use a demonbane spell (Arceuus)",
 			section = tobArceuusSpells
 	)
 	default boolean useDemonbaneTOB() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useThrallsTOB",
 			name = "Thralls",
 			description = "Use a thrall spell (Arceuus)",
 			section = tobArceuusSpells
 	)
 	default boolean useThrallsTOB() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useDeathChargeTOB",
 			name = "Death Charge",
 			description = "Use the death charge spell (Arceuus)",
 			section = tobArceuusSpells
 	)
 	default boolean useDeathChargeTOB() {return false;}
-	@ConfigItem(position = 5,
+	@ConfigItem(position = 6,
 			keyName = "useMarkOfDarknessTOB",
 			name = "Mark of Darkness",
 			description = "Use the mark of darkness spell (Arceuus)",
@@ -326,27 +356,32 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String tobAncientSpells = "TOB Ancient Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelTOBAncient",
+			name = "", description = "",
+			section = tobAncientSpells)
+	default String labelTOBAncient() { return "Ancient spell requirements for TOB."; }
+	@ConfigItem(position = 2,
 			keyName = "useSmokeTOB",
 			name = "Smoke Spell",
 			description = "Use a smoke spell (Ancient)",
 			section = tobAncientSpells
 	)
 	default boolean useSmokeTOB() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "useShadowTOB",
 			name = "Shadow Spell",
 			description = "Use a shadow spell (Ancient)",
 			section = tobAncientSpells
 	)
 	default boolean useShadowTOB() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useBloodTOB",
 			name = "Blood Spell",
 			description = "Use a blood spell (Ancient)",
 			section = tobAncientSpells
 	)
 	default boolean useBloodTOB() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useIceTOB",
 			name = "Ice Spell",
 			description = "Use an ice spell (Ancient)",
@@ -363,27 +398,32 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String tobLunarSpells = "TOB Lunar Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelTOBLunar",
+			name = "", description = "",
+			section = tobLunarSpells)
+	default String labelTOBLunar() { return "Lunar spell requirements for TOB."; }
+	@ConfigItem(position = 2,
 			keyName = "useCureTOB",
 			name = "Cure Spells",
 			description = "Use a cure spell (Lunar)",
 			section = tobLunarSpells
 	)
 	default boolean useCureTOB() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "usePotShareTOB",
 			name = "Pot Share",
 			description = "Use a potshare spell (Lunar)",
 			section = tobLunarSpells
 	)
 	default boolean usePotShareTOB() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useVengeTOB",
 			name = "Venge",
 			description = "Use the venge spell (Lunar)",
 			section = tobLunarSpells
 	)
 	default boolean useVengeTOB() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useHumidifyTOB",
 			name = "Humidify",
 			description = "Use the humidify spell (Lunar)",
@@ -425,27 +465,32 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String toaStandardSpells = "TOA Standard Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelTOAStandard",
+			name = "", description = "",
+			section = toaStandardSpells)
+	default String labelTOAStandard() { return "Standard spell requirements for TOA."; }
+	@ConfigItem(position = 2,
 			keyName = "useFireTOA",
 			name = "Fire Spell",
 			description = "Use a fire spell (Standard)",
 			section = toaStandardSpells
 	)
 	default boolean useFireTOA() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "useWaterTOA",
 			name = "Water Spell",
 			description = "Use a water spell (Standard)",
 			section = toaStandardSpells
 	)
 	default boolean useWaterTOA() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useEarthTOA",
 			name = "Earth Spell",
 			description = "Use an earth spell (Standard)",
 			section = toaStandardSpells
 	)
 	default boolean useEarthTOA() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useAirTOA",
 			name = "Air Spell",
 			description = "Use an air spell (Standard)",
@@ -462,34 +507,39 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String toaArceuusSpells = "TOA Arceuus Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelTOAArceuus",
+			name = "", description = "",
+			section = toaArceuusSpells)
+	default String labelTOAArceuus() { return "Arceuus spell requirements for TOA."; }
+	@ConfigItem(position = 2,
 			keyName = "useGraspTOA",
 			name = "Grasp Spell",
 			description = "Use a grasp spell (Arceuus)",
 			section = toaArceuusSpells
 	)
 	default boolean useGraspTOA() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "useDemonbaneTOA",
 			name = "Demonbane Spell",
 			description = "Use a demonbane spell (Arceuus)",
 			section = toaArceuusSpells
 	)
 	default boolean useDemonbaneTOA() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useThrallsTOA",
 			name = "Thralls",
 			description = "Use a thrall spell (Arceuus)",
 			section = toaArceuusSpells
 	)
 	default boolean useThrallsTOA() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useDeathChargeTOA",
 			name = "Death Charge",
 			description = "Use the death charge spell (Arceuus)",
 			section = toaArceuusSpells
 	)
 	default boolean useDeathChargeTOA() {return false;}
-	@ConfigItem(position = 5,
+	@ConfigItem(position = 6,
 			keyName = "useMarkOfDarknessTOA",
 			name = "Mark of Darkness",
 			description = "Use the mark of darkness spell (Arceuus)",
@@ -506,27 +556,32 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String toaAncientSpells = "TOA Ancient Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelTOAAncient",
+			name = "", description = "",
+			section = toaAncientSpells)
+	default String labelTOAAncient() { return "Ancient spell requirements for TOA."; }
+	@ConfigItem(position = 2,
 			keyName = "useSmokeTOA",
 			name = "Smoke Spell",
 			description = "Use a smoke spell (Ancient)",
 			section = toaAncientSpells
 	)
 	default boolean useSmokeTOA() {return false;}
-	@ConfigItem(position = 2,
+	@ConfigItem(position = 3,
 			keyName = "useShadowTOA",
 			name = "Shadow Spell",
 			description = "Use a shadow spell (Ancient)",
 			section = toaAncientSpells
 	)
 	default boolean useShadowTOA() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useBloodTOA",
 			name = "Blood Spell",
 			description = "Use a blood spell (Ancient)",
 			section = toaAncientSpells
 	)
 	default boolean useBloodTOA() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useIceTOA",
 			name = "Ice Spell",
 			description = "Use an ice spell (Ancient)",
@@ -543,27 +598,32 @@ public interface RaidSpellCheckerConfig extends Config
 	)
 	String toaLunarSpells = "TOA Lunar Spells";
 	@ConfigItem(position = 1,
+			keyName = "labelTOALunar",
+			name = "", description = "",
+			section = toaLunarSpells)
+	default String labelTOALunar() { return "Lunar spell requirements for TOA."; }
+	@ConfigItem(position = 2,
 			keyName = "useCureTOA",
 			name = "Cure Spells",
 			description = "Use a cure spell (Lunar)",
 			section = toaLunarSpells
 	)
 	default boolean useCureTOA() {return false;}
-	@ConfigItem(position = 2,
-			keyName = "usePotShareCOX",
+	@ConfigItem(position = 3,
+			keyName = "usePotShareTOA",
 			name = "Pot Share",
 			description = "Use a potshare spell (Lunar)",
 			section = toaLunarSpells
 	)
 	default boolean usePotShareTOA() {return false;}
-	@ConfigItem(position = 3,
+	@ConfigItem(position = 4,
 			keyName = "useVengeTOA",
 			name = "Venge",
 			description = "Use the venge spell (Lunar)",
 			section = toaLunarSpells
 	)
 	default boolean useVengeTOA() {return false;}
-	@ConfigItem(position = 4,
+	@ConfigItem(position = 5,
 			keyName = "useHumidifyTOA",
 			name = "Humidify",
 			description = "Use the humidify spell (Lunar)",
@@ -604,6 +664,6 @@ String soundEffect = "Sound Effect to Play";
 			description = "Name of custom .wav file placed in \\raid-spell-checker\\src\\main\\resources\\sounds",
 			section = soundEffect
 	)
-	default String customSound() { return "";}
+	default String customSound() { return "myfile.wav";}
 //endregion
 }
