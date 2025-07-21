@@ -12,3 +12,6 @@ will appear in the chat. Sound effect and volume are configurable.
 You can select a custom sound and place your own .wav file into
 the sounds folder (\raid-spell-checker\src\main\resources\sounds)
 and specify the name (MyCustomSound.wav).
+
+To test the plugin, be on the wrong spellbook or have the wrong runes
+and step near the starting door to one of the raids.

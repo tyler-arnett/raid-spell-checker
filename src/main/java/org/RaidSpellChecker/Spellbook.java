@@ -23,7 +23,7 @@ public class Spellbook
     public static final String VENGE_SPELL = "Venge";
     public static final String HUMIDIFY_SPELL = "Humidify";
     public static final String WRONG_SPELLBOOK = "WRONG SPELLBOOK";
-    public static final String WRONG_RUNES = "WRONG RUNES";
+    public static final String MISSING_RUNES = "MISSING RUNES";
 
     // === ELEMENTAL GROUPS === //
     public static final List<SpellDefinition> AIR_SPELLS = List.of(

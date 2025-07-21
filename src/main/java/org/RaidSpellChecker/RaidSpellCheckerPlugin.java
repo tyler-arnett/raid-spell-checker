@@ -13,6 +13,8 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.overlay.OverlayManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,12 @@ public class RaidSpellCheckerPlugin extends Plugin
 
 	@Inject
 	private RaidSpellCheckerConfig config;
+
+	@Inject
+	private OverlayManager overlayManager;
+
+	@Inject
+	private MissingSpellOverlay missingSpellOverlay;
 
 	// === Constants === //
 	private static final WorldArea TOA_ZONE = new WorldArea(3357, 9113, 5, 4, 0);
@@ -53,12 +61,14 @@ public class RaidSpellCheckerPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 		log.info("Raid Rune Checker started!");
+		overlayManager.add(missingSpellOverlay);
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
 		SoundPlayer.stop();
+		overlayManager.remove(missingSpellOverlay);
 		log.info("Raid Rune Checker stopped!");
 	}
 
@@ -205,18 +215,22 @@ public class RaidSpellCheckerPlugin extends Plugin
 			{
 				if (!processSpells(getSelectedSpellsTOA()))
 				{
-					if (wrongSpellbook) client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_SPELLBOOK, null);
-					else client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_RUNES, null);
-					playSound(config.soundEffect());
+					if (config.enablePopup()) {
+						if (wrongSpellbook) missingSpellOverlay.show(WRONG_SPELLBOOK, config.popupDuration());
+						else missingSpellOverlay.show(MISSING_RUNES, config.popupDuration());
+					}
+					if (config.enableSoundEffect()) playSound(config.soundEffect());
 				}
 			}
 			else if (config.enableTOB() && !previous.equals(currentPlayerLocation) && !previous.isInArea(TOB_ZONE) && currentPlayerLocation.isInArea(TOB_ZONE))
 			{
 				if (!processSpells(getSelectedSpellsTOB()))
 				{
-					if (wrongSpellbook) client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_SPELLBOOK, null);
-					else client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_RUNES, null);
-					playSound(config.soundEffect());
+					if (config.enablePopup()) {
+						if (wrongSpellbook) missingSpellOverlay.show(WRONG_SPELLBOOK, config.popupDuration());
+						else missingSpellOverlay.show(MISSING_RUNES, config.popupDuration());
+					}
+					if (config.enableSoundEffect()) playSound(config.soundEffect());
 				}
 
 			}
@@ -244,15 +258,16 @@ public class RaidSpellCheckerPlugin extends Plugin
 				{
 					if (!processSpells(getSelectedSpellsCOX()))
 					{
-						if (wrongSpellbook) client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_SPELLBOOK, null);
-						else client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", WRONG_RUNES, null);
-						playSound(config.soundEffect());
+						if (config.enablePopup()) {
+							if (wrongSpellbook) missingSpellOverlay.show(WRONG_SPELLBOOK, config.popupDuration());
+							else missingSpellOverlay.show(MISSING_RUNES, config.popupDuration());
+						}
+						if (config.enableSoundEffect()) playSound(config.soundEffect());
 					}
 				}
 				// === //
 			}
 	}
-
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged event)
 	{
