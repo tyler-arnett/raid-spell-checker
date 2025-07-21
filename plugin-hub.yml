@@ -1,0 +1,12 @@
+internalName: raid-spell-checker
+displayName: Raid Spell Checker
+description: Alerts when preferred spellbook or spells are missing before starting COX, TOB, or TOA.
+author: tyler-arnett
+tags:
+  - raids
+  - utility
+  - runes
+  - spellbook
+  - pvm
+  - notifications
+  - sound

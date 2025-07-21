@@ -1,17 +1,49 @@
-developed by MrIronTy
+# Raid Spell Checker
 
-The purpose of this plugin is to allow the player to
-configure which spellbook and specific spells they
-bring into each raid. If the player is on a different
-spellbook than what is selected for the raid, a sound
-effect will play and a message will appear in the chat.
-If the player is on the correct spellbook but is missing
-some of the runes to cast the selected spells from
-that spellbook, a sound effect will play and a message
-will appear in the chat. Sound effect and volume are configurable.
-You can select a custom sound and place your own .wav file into
-the sounds folder (\raid-spell-checker\src\main\resources\sounds)
-and specify the name (MyCustomSound.wav).
+**Developed by MrIronTy**
 
-To test the plugin, be on the wrong spellbook or have the wrong runes
-and step near the starting door to one of the raids.
+> **Plugin must be configured before use!**
+
+---
+
+## Overview
+
+Raid Spell Checker helps ensure you're prepared for raids by verifying your **spellbook** and **rune requirements** before you enter **Chambers of Xeric (COX)**, **Theatre of Blood (TOB)**, or **Tombs of Amascut (TOA)**.
+
+---
+
+## Features
+
+- Configure required **spellbook** and **specific spells** per raid.
+- Alerts if you're on the **wrong spellbook**.
+- Alerts if you're **missing runes** to cast selected spells.
+- **Sound notifications** (selectable sound and volume).
+- **Custom sound support** using `.wav` files.
+
+---
+
+## Custom Sound Setup
+
+1. Place your custom `.wav` file into:
+    raid-spell-checker/src/main/resources/sounds/
+2. In the plugin config, set the sound name:
+    MyCustomSound.wav
+
+---
+
+## How to Test
+
+To test the plugin:
+- Be on the wrong spellbook **or**
+- Be missing runes for required spells.
+- Walk near the **starting door** of one of the supported raids (COX/TOB/TOA).
+- You should see a popup and hear the configured sound effect.
+
+---
+
+## Configuration Required
+
+Before using the plugin, open the plugin panel and:
+- Select the raid(s) you'd like to configure.
+- Choose the correct spellbook and required spells.
+- Optionally configure your sound effect and popup visuals.
