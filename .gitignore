@@ -1,9 +1,11 @@
-.gradle
-build
+# Gradle & build artifacts
+.gradle/
+build/
+*.log
+
+# IntelliJ / IDEs
 .idea/
-.project
-.settings/
-.classpath
-nbactions.xml
-nb-configuration.xml
-nbproject/
+*.iml
+
+# OS files
+.DS_Store

@@ -2,28 +2,21 @@ plugins {
 	id 'java'
 }
 
+def runeLiteVersion = '1.11.12-SNAPSHOT'
+
 repositories {
 	mavenLocal()
-	maven {
-		url = 'https://repo.runelite.net'
-		content {
-			includeGroupByRegex("net\\.runelite.*")
-		}
-	}
 	mavenCentral()
+	maven { url = 'https://repo.runelite.net' }
 }
 
-def runeLiteVersion = 'latest.release'
-
 dependencies {
-	compileOnly group: 'net.runelite', name:'client', version: runeLiteVersion
+	implementation "net.runelite:client:$runeLiteVersion"
+	implementation "net.runelite:runelite-api:$runeLiteVersion"
+	implementation "net.runelite:cache:$runeLiteVersion"
 
-	compileOnly 'org.projectlombok:lombok:1.18.30'
-	annotationProcessor 'org.projectlombok:lombok:1.18.30'
-
-	testImplementation 'junit:junit:4.12'
-	testImplementation group: 'net.runelite', name:'client', version: runeLiteVersion
-	testImplementation group: 'net.runelite', name:'jshell', version: runeLiteVersion
+	compileOnly "org.projectlombok:lombok:1.18.30"
+	annotationProcessor "org.projectlombok:lombok:1.18.30"
 }
 
 group = 'com.example'
@@ -59,3 +52,16 @@ tasks.register('shadowJar', Jar) {
 	archiveClassifier.set('shadow')
 	archiveFileName.set("${rootProject.name}-${project.version}-all.jar")
 }
+
+sourceSets {
+	main {
+		resources {
+			srcDir 'src/main/resources'
+		}
+	}
+}
+
+tasks.processResources
+		{
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	}

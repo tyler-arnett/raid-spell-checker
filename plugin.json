@@ -1,0 +1,7 @@
+{
+  "internalName": "raidrunechecker",
+  "displayName": "Raid Rune Checker",
+  "description": "Notifies you when you're missing runes before beginning a raid.",
+  "tags": ["raid", "tob", "toa", "cox", "runes", "spells", "sound","reminder","checker"],
+  "enabledByDefault": true
+}
