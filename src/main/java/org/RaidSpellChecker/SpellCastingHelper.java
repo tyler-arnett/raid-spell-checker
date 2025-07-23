@@ -29,16 +29,19 @@ public class SpellCastingHelper
             Map.entry(ItemID.STAFF_OF_WATER, List.of(ItemID.WATER_RUNE)),
             Map.entry(ItemID.WATER_BATTLESTAFF, List.of(ItemID.WATER_RUNE)),
             Map.entry(ItemID.MYSTIC_WATER_STAFF, List.of(ItemID.WATER_RUNE)),
+            Map.entry(ItemID.TOME_OF_WATER, List.of(ItemID.WATER_RUNE)), // Added tome
 
             // Earth staves
             Map.entry(ItemID.STAFF_OF_EARTH, List.of(ItemID.EARTH_RUNE)),
             Map.entry(ItemID.EARTH_BATTLESTAFF, List.of(ItemID.EARTH_RUNE)),
             Map.entry(ItemID.MYSTIC_EARTH_STAFF, List.of(ItemID.EARTH_RUNE)),
+            Map.entry(ItemID.TOME_OF_EARTH, List.of(ItemID.EARTH_RUNE)), // Added tome
 
             // Fire staves
             Map.entry(ItemID.STAFF_OF_FIRE, List.of(ItemID.FIRE_RUNE)),
             Map.entry(ItemID.FIRE_BATTLESTAFF, List.of(ItemID.FIRE_RUNE)),
             Map.entry(ItemID.MYSTIC_FIRE_STAFF, List.of(ItemID.FIRE_RUNE)),
+            Map.entry(ItemID.TOME_OF_FIRE, List.of(ItemID.FIRE_RUNE)), // Added tome
 
             // Combination staves
             Map.entry(ItemID.MIST_BATTLESTAFF, List.of(ItemID.AIR_RUNE, ItemID.WATER_RUNE)),
@@ -54,7 +57,10 @@ public class SpellCastingHelper
             Map.entry(ItemID.MYSTIC_STEAM_STAFF, List.of(ItemID.WATER_RUNE, ItemID.FIRE_RUNE)),
 
             Map.entry(ItemID.LAVA_BATTLESTAFF, List.of(ItemID.FIRE_RUNE, ItemID.EARTH_RUNE)),
-            Map.entry(ItemID.MYSTIC_LAVA_STAFF, List.of(ItemID.FIRE_RUNE, ItemID.EARTH_RUNE))
+            Map.entry(ItemID.MYSTIC_LAVA_STAFF, List.of(ItemID.FIRE_RUNE, ItemID.EARTH_RUNE)),
+
+            // Book of the Dead as a provider of itself (for slot substitution logic)
+            Map.entry(ItemID.BOOK_OF_THE_DEAD, List.of(ItemID.BOOK_OF_THE_DEAD))
     );
     private static final Map<Integer, List<Integer>> COMBO_RUNE_SUBSTITUTIONS = Map.ofEntries(
             Map.entry(ItemID.MUD_RUNE, List.of(ItemID.WATER_RUNE, ItemID.EARTH_RUNE)),
@@ -96,7 +102,8 @@ public class SpellCastingHelper
 
     public static boolean canCastSpell(Client client, SpellDefinition spell)
     {
-        Set<Integer> staffRunes = getRunesProvidedByEquippedStaff(client);
+        // New method includes both equipped and inventory staves
+        Set<Integer> staffRunes = getRunesProvidedByEquippedOrInventoryStaff(client);
         Map<Integer, Integer> runeCounts = new HashMap<>();
 
         // Inventory runes
@@ -219,22 +226,26 @@ public class SpellCastingHelper
         }
     }
 
-    private static Set<Integer> getRunesProvidedByEquippedStaff(Client client)
+    private static Set<Integer> getRunesProvidedByEquippedOrInventoryStaff(Client client)
     {
-        ItemContainer equipment = client.getItemContainer(InventoryID.EQUIPMENT);
-        if (equipment == null) return Set.of();
-
         Set<Integer> runeSubs = new HashSet<>();
-        for (Item item : equipment.getItems())
+
+        List<ItemContainer> containers = new ArrayList<>();
+        ItemContainer equipment = client.getItemContainer(InventoryID.EQUIPMENT);
+        ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
+
+        if (equipment != null) containers.add(equipment);
+        if (inventory != null) containers.add(inventory);
+
+        for (ItemContainer container : containers)
         {
-            if (item == null) continue;
-            List<Integer> providedRunes = STAFF_SUBSTITUTIONS.get(item.getId());
-            if (providedRunes != null)
+            for (Item item : container.getItems())
             {
-                runeSubs.addAll(providedRunes);
+                if (item == null) continue;
+                List<Integer> runes = STAFF_SUBSTITUTIONS.get(item.getId());
+                if (runes != null) runeSubs.addAll(runes);
             }
         }
-
         return runeSubs;
     }
 }

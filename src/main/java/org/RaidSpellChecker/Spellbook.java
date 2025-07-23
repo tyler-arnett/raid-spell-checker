@@ -24,6 +24,7 @@ public class Spellbook
     public static final String HUMIDIFY_SPELL = "Humidify";
     public static final String WRONG_SPELLBOOK = "WRONG SPELLBOOK";
     public static final String MISSING_RUNES = "MISSING RUNES";
+    public static final String NO_BOOK_OF_THE_DEAD = "NO BOOK OF THE DEAD";
 
     // === ELEMENTAL GROUPS === //
     public static final List<SpellDefinition> AIR_SPELLS = List.of(
@@ -170,47 +171,56 @@ public class Spellbook
             new SpellDefinition("Lesser Ghost", List.of(
                     new SpellRuneRequirement(ItemID.AIR_RUNE, 10),
                     new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1),
-                    new SpellRuneRequirement(ItemID.MIND_RUNE, 5)
+                    new SpellRuneRequirement(ItemID.MIND_RUNE, 5),
+                    new SpellRuneRequirement(ItemID.BOOK_OF_THE_DEAD, 1)
             )),
             new SpellDefinition("Lesser Skeleton", List.of(
                     new SpellRuneRequirement(ItemID.AIR_RUNE, 10),
                     new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1),
-                    new SpellRuneRequirement(ItemID.MIND_RUNE, 5)
+                    new SpellRuneRequirement(ItemID.MIND_RUNE, 5),
+                    new SpellRuneRequirement(ItemID.BOOK_OF_THE_DEAD, 1)
             )),
             new SpellDefinition("Lesser Zombie", List.of(
                     new SpellRuneRequirement(ItemID.AIR_RUNE, 10),
                     new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1),
-                    new SpellRuneRequirement(ItemID.MIND_RUNE, 5)
+                    new SpellRuneRequirement(ItemID.MIND_RUNE, 5),
+                    new SpellRuneRequirement(ItemID.BOOK_OF_THE_DEAD, 1)
             )),
             new SpellDefinition("Superior Ghost", List.of(
                     new SpellRuneRequirement(ItemID.EARTH_RUNE, 10),
                     new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1),
-                    new SpellRuneRequirement(ItemID.DEATH_RUNE, 5)
+                    new SpellRuneRequirement(ItemID.DEATH_RUNE, 5),
+                    new SpellRuneRequirement(ItemID.BOOK_OF_THE_DEAD, 1)
             )),
             new SpellDefinition("Superior Skeleton", List.of(
                     new SpellRuneRequirement(ItemID.EARTH_RUNE, 10),
                     new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1),
-                    new SpellRuneRequirement(ItemID.DEATH_RUNE, 5)
+                    new SpellRuneRequirement(ItemID.DEATH_RUNE, 5),
+                    new SpellRuneRequirement(ItemID.BOOK_OF_THE_DEAD, 1)
             )),
             new SpellDefinition("Superior Zombie", List.of(
                     new SpellRuneRequirement(ItemID.EARTH_RUNE, 10),
                     new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1),
-                    new SpellRuneRequirement(ItemID.DEATH_RUNE, 5)
+                    new SpellRuneRequirement(ItemID.DEATH_RUNE, 5),
+                    new SpellRuneRequirement(ItemID.BOOK_OF_THE_DEAD, 1)
             )),
             new SpellDefinition("Greater Ghost", List.of(
                     new SpellRuneRequirement(ItemID.FIRE_RUNE, 10),
                     new SpellRuneRequirement(ItemID.BLOOD_RUNE, 5),
-                    new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1)
+                    new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1),
+                    new SpellRuneRequirement(ItemID.BOOK_OF_THE_DEAD, 1)
             )),
             new SpellDefinition("Greater Skeleton", List.of(
                     new SpellRuneRequirement(ItemID.FIRE_RUNE, 10),
                     new SpellRuneRequirement(ItemID.BLOOD_RUNE, 5),
-                    new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1)
+                    new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1),
+                    new SpellRuneRequirement(ItemID.BOOK_OF_THE_DEAD, 1)
             )),
             new SpellDefinition("Greater Zombie", List.of(
                     new SpellRuneRequirement(ItemID.FIRE_RUNE, 10),
                     new SpellRuneRequirement(ItemID.BLOOD_RUNE, 5),
-                    new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1)
+                    new SpellRuneRequirement(ItemID.COSMIC_RUNE, 1),
+                    new SpellRuneRequirement(ItemID.BOOK_OF_THE_DEAD, 1)
             ))
     );
 

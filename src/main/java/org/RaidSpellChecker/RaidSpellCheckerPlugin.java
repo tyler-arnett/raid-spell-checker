@@ -55,6 +55,7 @@ public class RaidSpellCheckerPlugin extends Plugin
 
 	// === Runtime Flags === //
 	private boolean wrongSpellbook;
+	private boolean noBookOfTheDead;
 
 
 	@Override
@@ -203,7 +204,6 @@ public class RaidSpellCheckerPlugin extends Plugin
 	public void onGameTick(GameTick event)
 	{
 		if (client.getLocalPlayer() == null) return;
-        ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
 			currentPlayerLocation = getPlayerLocation();
 			if (lastPlayerLocation == null) {
 				lastPlayerLocation = currentPlayerLocation;
@@ -217,6 +217,7 @@ public class RaidSpellCheckerPlugin extends Plugin
 				{
 					if (config.enablePopup()) {
 						if (wrongSpellbook) missingSpellOverlay.show(WRONG_SPELLBOOK, config.popupDuration());
+						else if (noBookOfTheDead) missingSpellOverlay.show(NO_BOOK_OF_THE_DEAD, config.popupDuration());
 						else missingSpellOverlay.show(MISSING_RUNES, config.popupDuration());
 					}
 					if (config.enableSoundEffect()) playSound(config.soundEffect());
@@ -228,6 +229,7 @@ public class RaidSpellCheckerPlugin extends Plugin
 				{
 					if (config.enablePopup()) {
 						if (wrongSpellbook) missingSpellOverlay.show(WRONG_SPELLBOOK, config.popupDuration());
+						else if (noBookOfTheDead) missingSpellOverlay.show(NO_BOOK_OF_THE_DEAD, config.popupDuration());
 						else missingSpellOverlay.show(MISSING_RUNES, config.popupDuration());
 					}
 					if (config.enableSoundEffect()) playSound(config.soundEffect());
@@ -259,7 +261,9 @@ public class RaidSpellCheckerPlugin extends Plugin
 					if (!processSpells(getSelectedSpellsCOX()))
 					{
 						if (config.enablePopup()) {
+
 							if (wrongSpellbook) missingSpellOverlay.show(WRONG_SPELLBOOK, config.popupDuration());
+							else if (noBookOfTheDead) missingSpellOverlay.show(NO_BOOK_OF_THE_DEAD, config.popupDuration());
 							else missingSpellOverlay.show(MISSING_RUNES, config.popupDuration());
 						}
 						if (config.enableSoundEffect()) playSound(config.soundEffect());
@@ -287,6 +291,15 @@ public class RaidSpellCheckerPlugin extends Plugin
 				case WRONG_SPELLBOOK:
 					wrongSpellbook = true;
 					return false;
+				case THRALL_SPELL:
+					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.THRALL_SPELLS))
+					{
+						if (!hasBookOfTheDead()) {
+							noBookOfTheDead = true;
+						}
+						return false;
+					}
+					break;
 				case AIR_SPELL:
 					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.AIR_SPELLS)) return false;
 					break;
@@ -304,9 +317,6 @@ public class RaidSpellCheckerPlugin extends Plugin
 					break;
 				case GRASP_SPELL:
 					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.GRASP_SPELLS)) return false;
-					break;
-				case THRALL_SPELL:
-					if (!SpellCastingHelper.canCastAnySpell(client, Spellbook.THRALL_SPELLS)) return false;
 					break;
 				case DEATH_CHARGE_SPELL:
 					if (!SpellCastingHelper.canCastSpell(client, Spellbook.DEATH_CHARGE)) return false;
@@ -344,6 +354,29 @@ public class RaidSpellCheckerPlugin extends Plugin
         }
 		return true;
 	}
+
+	private boolean hasBookOfTheDead()
+	{
+		List<ItemContainer> containers = new ArrayList<>();
+		ItemContainer equipment = client.getItemContainer(InventoryID.EQUIPMENT);
+		ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
+
+		if (equipment != null) containers.add(equipment);
+		if (inventory != null) containers.add(inventory);
+
+		for (ItemContainer container : containers)
+		{
+			for (Item item : container.getItems())
+			{
+				if (item != null && item.getId() == ItemID.BOOK_OF_THE_DEAD)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public void getRaidLayout(WorldPoint playerLocation)
 	{
 		//Using location of flowers inside the raid when you enter to determine which layout and thus set the COX_ZONE for when the player should be notified
