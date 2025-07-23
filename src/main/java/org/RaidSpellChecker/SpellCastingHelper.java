@@ -7,43 +7,39 @@ import java.util.*;
 public class SpellCastingHelper
 {
     private static final int[] DIVINE_RUNE_POUCH_RUNES = {
-            13385, // slot 1 rune type
-            13388, // slot 2 rune type
-            13391, // slot 3 rune type
-            14285  // slot 4 rune type
+            Varbits.RUNE_POUCH_RUNE1,
+            Varbits.RUNE_POUCH_RUNE2,
+            Varbits.RUNE_POUCH_RUNE3,
+            Varbits.RUNE_POUCH_RUNE4
     };
 
     private static final int[] DIVINE_RUNE_POUCH_AMOUNTS = {
-            13386, // slot 1 rune amount
-            13389, // slot 2 rune amount
-            13392, // slot 3 rune amount
-            14286  // slot 4 rune amount
+            Varbits.RUNE_POUCH_AMOUNT1,
+            Varbits.RUNE_POUCH_AMOUNT2,
+            Varbits.RUNE_POUCH_AMOUNT3,
+            Varbits.RUNE_POUCH_AMOUNT4
     };
+
     private static final Map<Integer, List<Integer>> STAFF_SUBSTITUTIONS = Map.ofEntries(
-            // Air staves
             Map.entry(ItemID.STAFF_OF_AIR, List.of(ItemID.AIR_RUNE)),
             Map.entry(ItemID.AIR_BATTLESTAFF, List.of(ItemID.AIR_RUNE)),
             Map.entry(ItemID.MYSTIC_AIR_STAFF, List.of(ItemID.AIR_RUNE)),
 
-            // Water staves
             Map.entry(ItemID.STAFF_OF_WATER, List.of(ItemID.WATER_RUNE)),
             Map.entry(ItemID.WATER_BATTLESTAFF, List.of(ItemID.WATER_RUNE)),
             Map.entry(ItemID.MYSTIC_WATER_STAFF, List.of(ItemID.WATER_RUNE)),
-            Map.entry(ItemID.TOME_OF_WATER, List.of(ItemID.WATER_RUNE)), // Added tome
+            Map.entry(ItemID.TOME_OF_WATER, List.of(ItemID.WATER_RUNE)),
 
-            // Earth staves
             Map.entry(ItemID.STAFF_OF_EARTH, List.of(ItemID.EARTH_RUNE)),
             Map.entry(ItemID.EARTH_BATTLESTAFF, List.of(ItemID.EARTH_RUNE)),
             Map.entry(ItemID.MYSTIC_EARTH_STAFF, List.of(ItemID.EARTH_RUNE)),
-            Map.entry(ItemID.TOME_OF_EARTH, List.of(ItemID.EARTH_RUNE)), // Added tome
+            Map.entry(ItemID.TOME_OF_EARTH, List.of(ItemID.EARTH_RUNE)),
 
-            // Fire staves
             Map.entry(ItemID.STAFF_OF_FIRE, List.of(ItemID.FIRE_RUNE)),
             Map.entry(ItemID.FIRE_BATTLESTAFF, List.of(ItemID.FIRE_RUNE)),
             Map.entry(ItemID.MYSTIC_FIRE_STAFF, List.of(ItemID.FIRE_RUNE)),
-            Map.entry(ItemID.TOME_OF_FIRE, List.of(ItemID.FIRE_RUNE)), // Added tome
+            Map.entry(ItemID.TOME_OF_FIRE, List.of(ItemID.FIRE_RUNE)),
 
-            // Combination staves
             Map.entry(ItemID.MIST_BATTLESTAFF, List.of(ItemID.AIR_RUNE, ItemID.WATER_RUNE)),
             Map.entry(ItemID.MYSTIC_MIST_STAFF, List.of(ItemID.AIR_RUNE, ItemID.WATER_RUNE)),
 
@@ -59,9 +55,9 @@ public class SpellCastingHelper
             Map.entry(ItemID.LAVA_BATTLESTAFF, List.of(ItemID.FIRE_RUNE, ItemID.EARTH_RUNE)),
             Map.entry(ItemID.MYSTIC_LAVA_STAFF, List.of(ItemID.FIRE_RUNE, ItemID.EARTH_RUNE)),
 
-            // Book of the Dead as a provider of itself (for slot substitution logic)
             Map.entry(ItemID.BOOK_OF_THE_DEAD, List.of(ItemID.BOOK_OF_THE_DEAD))
     );
+
     private static final Map<Integer, List<Integer>> COMBO_RUNE_SUBSTITUTIONS = Map.ofEntries(
             Map.entry(ItemID.MUD_RUNE, List.of(ItemID.WATER_RUNE, ItemID.EARTH_RUNE)),
             Map.entry(ItemID.MIST_RUNE, List.of(ItemID.WATER_RUNE, ItemID.AIR_RUNE)),
@@ -74,7 +70,7 @@ public class SpellCastingHelper
     );
 
     private static final Map<Integer, Integer> RUNE_VARBIT_ID_TO_ITEM_ID = Map.ofEntries(
-            Map.entry(0, -1), // empty
+            Map.entry(0, -1),
             Map.entry(1, ItemID.AIR_RUNE),
             Map.entry(2, ItemID.WATER_RUNE),
             Map.entry(3, ItemID.EARTH_RUNE),
@@ -92,27 +88,20 @@ public class SpellCastingHelper
             Map.entry(15, ItemID.WRATH_RUNE),
             Map.entry(16, ItemID.MIST_RUNE),
             Map.entry(17, ItemID.DUST_RUNE),
-            Map.entry(18, ItemID.MUD_RUNE),
+            Map.entry(18, ItemID.LAVA_RUNE),
             Map.entry(19, ItemID.SMOKE_RUNE),
             Map.entry(20, ItemID.STEAM_RUNE),
-            Map.entry(21, ItemID.LAVA_RUNE),
+            Map.entry(21, ItemID.MUD_RUNE),
             Map.entry(22, ItemID.SUNFIRE_RUNE),
             Map.entry(23, ItemID.AETHER_RUNE)
     );
 
     public static boolean canCastSpell(Client client, SpellDefinition spell)
     {
-        // New method includes both equipped and inventory staves
         Set<Integer> staffRunes = getRunesProvidedByEquippedOrInventoryStaff(client);
         Map<Integer, Integer> runeCounts = new HashMap<>();
 
-        // Inventory runes
         mergeRuneCounts(runeCounts, getRunesFromInventory(client));
-
-        // Rune pouch runes
-        mergeRuneCounts(runeCounts, getRunePouchContents(client));
-
-        // Divine rune pouch runes
         mergeRuneCounts(runeCounts, getDivineRunePouchContents(client));
 
         for (SpellRuneRequirement req : spell.getRuneRequirements())
@@ -135,7 +124,6 @@ public class SpellCastingHelper
                     comboRuneCount += runeCounts.getOrDefault(combo.getKey(), 0);
                 }
             }
-
             if ((available + comboRuneCount) < requiredAmount)
             {
                 return false;
@@ -167,35 +155,6 @@ public class SpellCastingHelper
         {
             if (item == null) continue;
             result.merge(item.getId(), item.getQuantity(), Integer::sum);
-        }
-        return result;
-    }
-
-    private static Map<Integer, Integer> getRunePouchContents(Client client)
-    {
-        Map<Integer, Integer> result = new HashMap<>();
-
-        int[] runeVarbits = {
-                Varbits.RUNE_POUCH_RUNE1,
-                Varbits.RUNE_POUCH_RUNE2,
-                Varbits.RUNE_POUCH_RUNE3
-        };
-
-        int[] amountVarbits = {
-                Varbits.RUNE_POUCH_AMOUNT1,
-                Varbits.RUNE_POUCH_AMOUNT2,
-                Varbits.RUNE_POUCH_AMOUNT3
-        };
-
-        for (int i = 0; i < runeVarbits.length; i++)
-        {
-            int runeCode = client.getVarbitValue(runeVarbits[i]);
-            int amount = client.getVarbitValue(amountVarbits[i]);
-            Integer itemId = RUNE_VARBIT_ID_TO_ITEM_ID.get(runeCode);
-            if (itemId != null && itemId != -1 && amount > 0)
-            {
-                result.merge(itemId, amount, Integer::sum);
-            }
         }
         return result;
     }
