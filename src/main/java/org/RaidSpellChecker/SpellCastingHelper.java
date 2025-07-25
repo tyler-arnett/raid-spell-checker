@@ -154,7 +154,22 @@ public class SpellCastingHelper
         for (Item item : inventory.getItems())
         {
             if (item == null) continue;
-            result.merge(item.getId(), item.getQuantity(), Integer::sum);
+
+            int id = item.getId();
+            int qty = item.getQuantity();
+
+            List<Integer> components = COMBO_RUNE_SUBSTITUTIONS.get(id);
+            if (components != null)
+            {
+                for (int comp : components)
+                {
+                    result.merge(comp, qty, Integer::sum);
+                }
+            }
+            else
+            {
+                result.merge(id, qty, Integer::sum);
+            }
         }
         return result;
     }
@@ -162,13 +177,27 @@ public class SpellCastingHelper
     private static Map<Integer, Integer> getDivineRunePouchContents(Client client)
     {
         Map<Integer, Integer> result = new HashMap<>();
+        EnumComposition runePouchEnum = client.getEnum(EnumID.RUNEPOUCH_RUNE);
 
         for (int i = 0; i < DIVINE_RUNE_POUCH_RUNES.length; i++)
         {
-            int runeCode = client.getVarbitValue(DIVINE_RUNE_POUCH_RUNES[i]);
+            int index = client.getVarbitValue(DIVINE_RUNE_POUCH_RUNES[i]);
             int amount = client.getVarbitValue(DIVINE_RUNE_POUCH_AMOUNTS[i]);
-            Integer itemId = RUNE_VARBIT_ID_TO_ITEM_ID.get(runeCode);
-            if (itemId != null && itemId != -1 && amount > 0)
+
+            if (index == 0 || amount <= 0)
+                continue;
+
+            int itemId = runePouchEnum.getIntValue(index);
+
+            List<Integer> components = COMBO_RUNE_SUBSTITUTIONS.get(itemId);
+            if (components != null)
+            {
+                for (Integer comp : components)
+                {
+                    result.merge(comp, amount, Integer::sum);
+                }
+            }
+            else
             {
                 result.merge(itemId, amount, Integer::sum);
             }

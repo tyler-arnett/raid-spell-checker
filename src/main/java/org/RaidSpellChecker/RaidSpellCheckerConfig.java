@@ -10,15 +10,18 @@ import net.runelite.client.config.Units;
 import java.awt.*;
 
 @ConfigGroup("raidspellchecker")
-public interface RaidSpellCheckerConfig extends Config {
-    enum Spellbook {
+public interface RaidSpellCheckerConfig extends Config
+{
+    enum Spellbook
+    {
         STANDARD,
         ANCIENT,
         LUNAR,
         ARCEUUS
     }
 
-    enum Sound {
+    enum Sound
+    {
         RUBY_BOLTS,
         FAIRY_RING,
         ICE_BARRAGE,
@@ -26,7 +29,7 @@ public interface RaidSpellCheckerConfig extends Config {
         CUSTOM
     }
 
-    //region COX
+//region COX
     @ConfigSection(
             name = "COX",
             description = "Spells to use in COX",
@@ -43,7 +46,8 @@ public interface RaidSpellCheckerConfig extends Config {
             description = "Enabled for COX",
             section = coxSpellbookSection
     )
-    default boolean enableCox() {
+    default boolean enableCox()
+    {
         return true;
     }
 
@@ -54,7 +58,8 @@ public interface RaidSpellCheckerConfig extends Config {
             description = "Spellbook to use for COX",
             section = coxSpellbookSection
     )
-    default Spellbook spellSelectionCOX() {
+    default Spellbook spellSelectionCOX()
+    {
         return Spellbook.STANDARD;
     }
 
@@ -72,7 +77,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Standard spell requirements for COX.", description = "",
             position = 1,
             section = coxStandardSpells)
-    default String labelCOXStandard() {
+    default String labelCOXStandard()
+    {
         return "";
     }
 
@@ -83,7 +89,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = coxStandardSpells
     )
-    default boolean useFireCOX() {
+    default boolean useFireCOX()
+    {
         return false;
     }
 
@@ -94,7 +101,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = coxStandardSpells
     )
-    default boolean useWaterCOX() {
+    default boolean useWaterCOX()
+    {
         return false;
     }
 
@@ -105,7 +113,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = coxStandardSpells
     )
-    default boolean useEarthCOX() {
+    default boolean useEarthCOX()
+    {
         return false;
     }
 
@@ -116,7 +125,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = coxStandardSpells
     )
-    default boolean useAirCOX() {
+    default boolean useAirCOX()
+    {
         return false;
     }
 
@@ -134,7 +144,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Arceuus spell requirements for COX.", description = "",
             position = 1,
             section = coxArceuusSpells)
-    default String labelCOXArceuus() {
+    default String labelCOXArceuus()
+    {
         return "";
     }
 
@@ -145,7 +156,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = coxArceuusSpells
     )
-    default boolean useGraspCOX() {
+    default boolean useGraspCOX()
+    {
         return false;
     }
 
@@ -156,7 +168,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = coxArceuusSpells
     )
-    default boolean useDemonbaneCOX() {
+    default boolean useDemonbaneCOX()
+    {
         return false;
     }
 
@@ -167,7 +180,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = coxArceuusSpells
     )
-    default boolean useThrallsCOX() {
+    default boolean useThrallsCOX()
+    {
         return false;
     }
 
@@ -178,7 +192,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = coxArceuusSpells
     )
-    default boolean useDeathChargeCOX() {
+    default boolean useDeathChargeCOX()
+    {
         return false;
     }
 
@@ -189,7 +204,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 6,
             section = coxArceuusSpells
     )
-    default boolean useMarkOfDarknessCOX() {
+    default boolean useMarkOfDarknessCOX()
+    {
         return false;
     }
 
@@ -207,7 +223,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Ancient spell requirements for COX.", description = "",
             position = 1,
             section = coxAncientSpells)
-    default String labelCOXAncient() {
+    default String labelCOXAncient()
+    {
         return "";
     }
 
@@ -218,7 +235,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = coxAncientSpells
     )
-    default boolean useSmokeCOX() {
+    default boolean useSmokeCOX()
+    {
         return false;
     }
 
@@ -229,7 +247,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = coxAncientSpells
     )
-    default boolean useShadowCOX() {
+    default boolean useShadowCOX()
+    {
         return false;
     }
 
@@ -240,7 +259,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = coxAncientSpells
     )
-    default boolean useBloodCOX() {
+    default boolean useBloodCOX()
+    {
         return false;
     }
 
@@ -251,7 +271,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = coxAncientSpells
     )
-    default boolean useIceCOX() {
+    default boolean useIceCOX()
+    {
         return false;
     }
 
@@ -269,7 +290,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Lunar spell requirements for COX.", description = "",
             position = 1,
             section = coxLunarSpells)
-    default String labelCOXLunar() {
+    default String labelCOXLunar()
+    {
         return "";
     }
 
@@ -280,7 +302,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = coxLunarSpells
     )
-    default boolean useCureCOX() {
+    default boolean useCureCOX()
+    {
         return false;
     }
 
@@ -291,7 +314,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = coxLunarSpells
     )
-    default boolean usePotShareCOX() {
+    default boolean usePotShareCOX()
+    {
         return false;
     }
 
@@ -302,7 +326,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = coxLunarSpells
     )
-    default boolean useVengeCOX() {
+    default boolean useVengeCOX()
+    {
         return false;
     }
 
@@ -313,11 +338,12 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = coxLunarSpells
     )
-    default boolean useHumidifyCOX() {
+    default boolean useHumidifyCOX()
+    {
         return false;
     }
 
-    //endregion
+//endregion
 //---------------------------------------------------------------------------------------------------------------------------------
 //region TOB
     @ConfigSection(
@@ -335,7 +361,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 1,
             section = tobSpellbookSection
     )
-    default boolean enableTOB() {
+    default boolean enableTOB()
+    {
         return true;
     }
 
@@ -346,7 +373,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = tobSpellbookSection
     )
-    default Spellbook spellSelectionTOB() {
+    default Spellbook spellSelectionTOB()
+    {
         return Spellbook.STANDARD;
     }
 
@@ -364,7 +392,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Standard spell requirements for TOB.", description = "",
             position = 1,
             section = tobStandardSpells)
-    default String labelTOBStandard() {
+    default String labelTOBStandard()
+    {
         return "";
     }
 
@@ -375,7 +404,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = tobStandardSpells
     )
-    default boolean useFireTOB() {
+    default boolean useFireTOB()
+    {
         return false;
     }
 
@@ -386,7 +416,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = tobStandardSpells
     )
-    default boolean useWaterTOB() {
+    default boolean useWaterTOB()
+    {
         return false;
     }
 
@@ -397,7 +428,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = tobStandardSpells
     )
-    default boolean useEarthTOB() {
+    default boolean useEarthTOB()
+    {
         return false;
     }
 
@@ -408,7 +440,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = tobStandardSpells
     )
-    default boolean useAirTOB() {
+    default boolean useAirTOB()
+    {
         return false;
     }
 
@@ -426,7 +459,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Arceuus spell requirements for TOB.", description = "",
             position = 1,
             section = tobArceuusSpells)
-    default String labelTOBArceuus() {
+    default String labelTOBArceuus()
+    {
         return "";
     }
 
@@ -437,7 +471,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = tobArceuusSpells
     )
-    default boolean useGraspTOB() {
+    default boolean useGraspTOB()
+    {
         return false;
     }
 
@@ -448,7 +483,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = tobArceuusSpells
     )
-    default boolean useDemonbaneTOB() {
+    default boolean useDemonbaneTOB()
+    {
         return false;
     }
 
@@ -459,7 +495,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = tobArceuusSpells
     )
-    default boolean useThrallsTOB() {
+    default boolean useThrallsTOB()
+    {
         return false;
     }
 
@@ -470,7 +507,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = tobArceuusSpells
     )
-    default boolean useDeathChargeTOB() {
+    default boolean useDeathChargeTOB()
+    {
         return false;
     }
 
@@ -481,7 +519,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 6,
             section = tobArceuusSpells
     )
-    default boolean useMarkOfDarknessTOB() {
+    default boolean useMarkOfDarknessTOB()
+    {
         return false;
     }
 
@@ -499,7 +538,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Ancient spell requirements for TOB.", description = "",
             position = 1,
             section = tobAncientSpells)
-    default String labelTOBAncient() {
+    default String labelTOBAncient()
+    {
         return "";
     }
 
@@ -510,7 +550,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = tobAncientSpells
     )
-    default boolean useSmokeTOB() {
+    default boolean useSmokeTOB()
+    {
         return false;
     }
 
@@ -521,7 +562,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = tobAncientSpells
     )
-    default boolean useShadowTOB() {
+    default boolean useShadowTOB()
+    {
         return false;
     }
 
@@ -532,7 +574,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = tobAncientSpells
     )
-    default boolean useBloodTOB() {
+    default boolean useBloodTOB()
+    {
         return false;
     }
 
@@ -543,7 +586,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = tobAncientSpells
     )
-    default boolean useIceTOB() {
+    default boolean useIceTOB()
+    {
         return false;
     }
 
@@ -561,7 +605,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Lunar spell requirements for TOB.", description = "",
             position = 1,
             section = tobLunarSpells)
-    default String labelTOBLunar() {
+    default String labelTOBLunar()
+    {
         return "";
     }
 
@@ -572,7 +617,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = tobLunarSpells
     )
-    default boolean useCureTOB() {
+    default boolean useCureTOB()
+    {
         return false;
     }
 
@@ -583,7 +629,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = tobLunarSpells
     )
-    default boolean usePotShareTOB() {
+    default boolean usePotShareTOB()
+    {
         return false;
     }
 
@@ -594,7 +641,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = tobLunarSpells
     )
-    default boolean useVengeTOB() {
+    default boolean useVengeTOB()
+    {
         return false;
     }
 
@@ -605,11 +653,12 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = tobLunarSpells
     )
-    default boolean useHumidifyTOB() {
+    default boolean useHumidifyTOB()
+    {
         return false;
     }
 
-    //endregion
+//endregion
 //---------------------------------------------------------------------------------------------------------------------------------
 //region TOA
     @ConfigSection(
@@ -627,7 +676,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 1,
             section = toaSpellbookSection
     )
-    default boolean enableTOA() {
+    default boolean enableTOA()
+    {
         return true;
     }
 
@@ -638,7 +688,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = toaSpellbookSection
     )
-    default Spellbook spellSelectionTOA() {
+    default Spellbook spellSelectionTOA()
+    {
         return Spellbook.STANDARD;
     }
 
@@ -656,7 +707,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Standard spell requirements for TOA.", description = "",
             position = 1,
             section = toaStandardSpells)
-    default String labelTOAStandard() {
+    default String labelTOAStandard()
+    {
         return "";
     }
 
@@ -667,7 +719,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = toaStandardSpells
     )
-    default boolean useFireTOA() {
+    default boolean useFireTOA()
+    {
         return false;
     }
 
@@ -678,7 +731,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = toaStandardSpells
     )
-    default boolean useWaterTOA() {
+    default boolean useWaterTOA()
+    {
         return false;
     }
 
@@ -689,7 +743,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = toaStandardSpells
     )
-    default boolean useEarthTOA() {
+    default boolean useEarthTOA()
+    {
         return false;
     }
 
@@ -700,7 +755,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = toaStandardSpells
     )
-    default boolean useAirTOA() {
+    default boolean useAirTOA()
+    {
         return false;
     }
 
@@ -718,7 +774,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Arceuus spell requirements for TOA.", description = "",
             position = 1,
             section = toaArceuusSpells)
-    default String labelTOAArceuus() {
+    default String labelTOAArceuus()
+    {
         return "";
     }
 
@@ -729,7 +786,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = toaArceuusSpells
     )
-    default boolean useGraspTOA() {
+    default boolean useGraspTOA()
+    {
         return false;
     }
 
@@ -740,7 +798,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = toaArceuusSpells
     )
-    default boolean useDemonbaneTOA() {
+    default boolean useDemonbaneTOA()
+    {
         return false;
     }
 
@@ -751,7 +810,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = toaArceuusSpells
     )
-    default boolean useThrallsTOA() {
+    default boolean useThrallsTOA()
+    {
         return false;
     }
 
@@ -762,7 +822,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = toaArceuusSpells
     )
-    default boolean useDeathChargeTOA() {
+    default boolean useDeathChargeTOA()
+    {
         return false;
     }
 
@@ -773,7 +834,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 6,
             section = toaArceuusSpells
     )
-    default boolean useMarkOfDarknessTOA() {
+    default boolean useMarkOfDarknessTOA()
+    {
         return false;
     }
 
@@ -791,7 +853,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Ancient spell requirements for TOA.", description = "",
             position = 1,
             section = toaAncientSpells)
-    default String labelTOAAncient() {
+    default String labelTOAAncient()
+    {
         return "";
     }
 
@@ -802,7 +865,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = toaAncientSpells
     )
-    default boolean useSmokeTOA() {
+    default boolean useSmokeTOA()
+    {
         return false;
     }
 
@@ -813,7 +877,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = toaAncientSpells
     )
-    default boolean useShadowTOA() {
+    default boolean useShadowTOA()
+    {
         return false;
     }
 
@@ -824,7 +889,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = toaAncientSpells
     )
-    default boolean useBloodTOA() {
+    default boolean useBloodTOA()
+    {
         return false;
     }
 
@@ -835,7 +901,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = toaAncientSpells
     )
-    default boolean useIceTOA() {
+    default boolean useIceTOA()
+    {
         return false;
     }
 
@@ -853,7 +920,8 @@ public interface RaidSpellCheckerConfig extends Config {
             name = "Lunar spell requirements for TOA.", description = "",
             position = 1,
             section = toaLunarSpells)
-    default String labelTOALunar() {
+    default String labelTOALunar()
+    {
         return "";
     }
 
@@ -864,7 +932,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = toaLunarSpells
     )
-    default boolean useCureTOA() {
+    default boolean useCureTOA()
+    {
         return false;
     }
 
@@ -875,7 +944,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 3,
             section = toaLunarSpells
     )
-    default boolean usePotShareTOA() {
+    default boolean usePotShareTOA()
+    {
         return false;
     }
 
@@ -886,7 +956,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 4,
             section = toaLunarSpells
     )
-    default boolean useVengeTOA() {
+    default boolean useVengeTOA()
+    {
         return false;
     }
 
@@ -897,11 +968,12 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = toaLunarSpells
     )
-    default boolean useHumidifyTOA() {
+    default boolean useHumidifyTOA()
+    {
         return false;
     }
 
-    //endregion
+//endregion
 //region Notification
     @ConfigSection(
             name = "Notification",
@@ -918,7 +990,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 1,
             section = notification
     )
-    default boolean enableSoundEffect() {
+    default boolean enableSoundEffect()
+    {
         return true;
     }
 
@@ -929,8 +1002,9 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 2,
             section = notification
     )
-    default Sound soundEffect() {
-        return Sound.RUBY_BOLTS;
+    default Sound soundEffect()
+    {
+        return Sound.FAIRY_RING;
     }
 
     @Range(min = 0, max = 100)
@@ -944,17 +1018,18 @@ public interface RaidSpellCheckerConfig extends Config {
     )
     default int soundVolume()
     {
-        return 50;
+        return 10;
     }
 
     @ConfigItem(
             keyName = "customSound",
             name = "Custom Sound",
-            description = "Name of custom .wav file placed in /raid-spell-checker/src/main/resources/sounds/",
+            description = "Name of custom .wav file placed in /resources/sounds/",
             position = 4,
             section = notification
     )
-    default String customSound() {
+    default String customSound()
+    {
         return "myfile.wav";
     }
 
@@ -965,7 +1040,8 @@ public interface RaidSpellCheckerConfig extends Config {
             position = 5,
             section = notification
     )
-    default boolean enablePopup() {
+    default boolean enablePopup()
+    {
         return true;
     }
 
@@ -980,7 +1056,8 @@ public interface RaidSpellCheckerConfig extends Config {
             min = 10,
             max = 100
     )
-    default int popupSize() {
+    default int popupSize()
+    {
         return 20;
     }
 

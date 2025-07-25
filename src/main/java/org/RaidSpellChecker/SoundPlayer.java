@@ -1,59 +1,31 @@
 package org.RaidSpellChecker;
 
-import javax.sound.sampled.*;
-import java.io.BufferedInputStream;
-import java.io.InputStream;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.runelite.client.RuneLite;
+import net.runelite.client.audio.AudioPlayer;
 
-public class SoundPlayer {
-    private static Clip currentClip;
+import javax.inject.Inject;
+import java.nio.file.Path;
 
-    public static synchronized void play(String fileName, int volumePercent) {
-        try {
-            // If a clip is already playing, skip playback
-            if (currentClip != null && currentClip.isRunning()) {
-                return;
-            }
+@Slf4j
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
+public class SoundPlayer
+{
+    private final AudioPlayer audioPlayer;
+    private final RaidSpellCheckerConfig config;
 
-            try (InputStream audioSrc = SoundPlayer.class.getResourceAsStream("/sounds/" + fileName)) {
-                if (audioSrc == null) {
-                    System.err.println("Sound file not found: " + fileName);
-                    return;
-                }
-
-                try (InputStream bufferedIn = new BufferedInputStream(audioSrc)) {
-                    AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
-                    Clip newClip = AudioSystem.getClip();
-                    newClip.open(audioStream);
-
-                    // Stop previous clip if needed
-                    if (currentClip != null) {
-                        currentClip.stop();
-                        currentClip.close();
-                    }
-
-                    currentClip = newClip;
-
-                    // Set volume
-                    if (currentClip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
-                        FloatControl volumeControl = (FloatControl) currentClip.getControl(FloatControl.Type.MASTER_GAIN);
-                        float min = volumeControl.getMinimum();
-                        float max = volumeControl.getMaximum();
-                        float gain = (max - min) * (volumePercent / 100.0f) + min;
-                        volumeControl.setValue(gain);
-                    }
-
-                    currentClip.start();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void play(String fileName, int volume)
+    {
+        try
+        {
+            float gainDb = 20f * (float) Math.log10(config.soundVolume() / 100f);
+            audioPlayer.play(this.getClass(), "/sounds/" + fileName, gainDb);
         }
-    }
-    public static synchronized void stop() {
-        if (currentClip != null) {
-            currentClip.stop();
-            currentClip.close();
-            currentClip = null;
+        catch (Exception e)
+        {
+            log.error(e.getMessage(),e);
         }
     }
 }
+

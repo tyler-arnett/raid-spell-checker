@@ -5,6 +5,12 @@ public class SpellRuneRequirement
     private final int runeId;
     private final int amount;
 
+    @Override
+    public String toString()
+    {
+        return "RuneID: " + runeId + ", Amount: " + amount;
+    }
+
     public SpellRuneRequirement(int runeId, int amount)
     {
         this.runeId = runeId;
