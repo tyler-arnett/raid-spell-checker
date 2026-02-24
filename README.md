@@ -30,10 +30,20 @@
 
 To use a custom sound:
 
-1. Place your `.wav` file in the folder:  
-   `src/main/resources/sounds/`
-2. In the plugin configuration, enter the exact filename:  
-   e.g., `MyCustomSound.wav`
+1. Locate your `.runelite` folder
+
+On windows this is likely to be here: `C:\Users\<your username>\.runelite`
+
+If you aren't sure, it's the same place that stores your `settings.properties`
+
+Within this `.runelite` folder, there should be a `raid-spell-checker-sounds` folder, which is where you will put your custom sound files
+
+2. Prepare your sound files
+
+Make sure your custom file is in `.wav` format (just changing the extension won't work, actually convert them)
+
+Under the Notification section, add your file name to the `Custom Sound` field and ensure the Sound Effect is set to `Custom` - The file name must __exactly__ match
+
 
 ---
 

@@ -12,6 +12,7 @@ import java.awt.*;
 @ConfigGroup("raidspellchecker")
 public interface RaidSpellCheckerConfig extends Config
 {
+//region enums
     enum Spellbook
     {
         STANDARD,
@@ -28,7 +29,8 @@ public interface RaidSpellCheckerConfig extends Config
         EEEEEEEE,
         CUSTOM
     }
-
+//endregion
+//---------------------------------------------------------------------------------------------------------------------------------
 //region COX
     @ConfigSection(
             name = "COX",
@@ -974,6 +976,7 @@ public interface RaidSpellCheckerConfig extends Config
     }
 
 //endregion
+//---------------------------------------------------------------------------------------------------------------------------------
 //region Notification
     @ConfigSection(
             name = "Notification",

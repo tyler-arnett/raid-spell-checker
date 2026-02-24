@@ -67,6 +67,7 @@ public class RaidSpellCheckerPlugin extends Plugin
     protected void startUp() throws Exception
     {
         log.info("Raid Rune Checker started!");
+        RaidSpellCheckerFileManager.ensureDirs();
         overlayManager.add(missingSpellOverlay);
     }
 
@@ -397,8 +398,7 @@ public class RaidSpellCheckerPlugin extends Plugin
         //Using location of flowers inside the raid when you enter to determine which layout and thus set the COX_ZONE for when the player should be notified
         boolean layout1 = false;
         LocalPoint localPoint = LocalPoint.fromWorld(client, currentPlayerLocation);
-        Tile tile = client.getScene().getTiles()[playerLocation.getPlane()][localPoint.getSceneX() + 3][localPoint.getSceneY() + 11];
-        for (GameObject g : tile.getGameObjects())
+        for (GameObject g : client.getScene().getTiles()[playerLocation.getPlane()][localPoint.getSceneX() + 3][localPoint.getSceneY() + 11].getGameObjects())
         {
             if (g != null && g.getId() == 29864) layout1 = true;
         }
