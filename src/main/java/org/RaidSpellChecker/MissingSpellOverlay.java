@@ -1,6 +1,5 @@
 package org.RaidSpellChecker;
 
-import net.runelite.api.Client;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
@@ -11,7 +10,6 @@ import java.awt.*;
 @Singleton
 public class MissingSpellOverlay extends Overlay
 {
-    private final Client client;
     private final RaidSpellCheckerConfig config;
 
     private String message;
@@ -19,11 +17,10 @@ public class MissingSpellOverlay extends Overlay
     private int timeoutMillis;
 
     @Inject
-    public MissingSpellOverlay(Client client, RaidSpellCheckerConfig config)
+    public MissingSpellOverlay(RaidSpellCheckerConfig config)
     {
-        this.client = client;
         this.config = config;
-        this.setPosition(OverlayPosition.DYNAMIC);
+        this.setPosition(OverlayPosition.TOP_CENTER);
         this.message = null;
         this.startTime = 0;
         this.timeoutMillis = 0;
@@ -53,10 +50,8 @@ public class MissingSpellOverlay extends Overlay
         int boxWidth = textWidth + padding * 2;
         int boxHeight = textHeight + padding * 2;
 
-        int screenWidth = client.getCanvas().getWidth();
-        int screenHeight = client.getCanvas().getHeight();
-        int x = (screenWidth - boxWidth) / 2;
-        int y = (screenHeight - boxHeight) / 2;
+        int x = 0;
+        int y = 0;
 
         g.setColor(config.popupBackgroundColor());
         g.fillRoundRect(x, y, boxWidth, boxHeight, config.popupSize(), config.popupSize());
