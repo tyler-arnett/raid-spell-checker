@@ -1298,7 +1298,7 @@ public interface RaidSpellCheckerConfig extends Config
     @ConfigSection(
             name = "Notification",
             description = "Notification Settings",
-            position = 16,
+            position = 21,
             closedByDefault = true
     )
     String notification = "Notification";
